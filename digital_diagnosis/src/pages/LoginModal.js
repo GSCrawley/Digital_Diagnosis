@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import PatientRegistrationForm from './PatientRegistrationForm';
 import PasswordResetModal from './PasswordResetModal';
+import PatientRegistrationForm from './PatientRegistrationForm';
+import patientUrl from './Splash';
 
-const LoginModal = ({ url, onClose, setShowRegistrationModal }) => {
+const LoginModal = ({ url, onClose }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [showPatientRegistration, setShowPatientRegistration] = useState(false);
   const navigate = useNavigate();
   
   const handleLogin = async (event) => {
@@ -51,15 +53,24 @@ const LoginModal = ({ url, onClose, setShowRegistrationModal }) => {
             required
           />
         <div style={styles.links}>
-        <a href="#" onClick={() => setShowPasswordReset(true)}>Forgot your password?</a>
-            <a href="/registration" onClick={() => setShowRegistrationModal(true)}>Don't have an account? Register here</a>
+        {/* <a href="#" onClick={() => setShowPasswordReset(true)}>Forgot your password?</a> */}
+        <a onClick={() =>  setShowPatientRegistration(true)}>Don't have an account? Register here</a>
           </div>
+
           <button type="submit" style={styles.button}>Login</button>
         </form>
         <button onClick={onClose} style={styles.closeButton}>Close</button>
       </div>
     </div>
 
+    {showPatientRegistration && (
+    <PatientRegistrationForm
+      url={patientUrl}
+      onClose={() => setShowPatientRegistration(false)}
+    />
+    
+    )}
+    
     {showPasswordReset && (
         <PasswordResetModal 
           url={url}
@@ -90,7 +101,6 @@ const styles = {
     borderRadius: '10px',
     background: '#fff',
     padding: 20,
-    borderRadius: 5,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

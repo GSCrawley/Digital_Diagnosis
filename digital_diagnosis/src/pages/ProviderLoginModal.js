@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PasswordResetModal from './PasswordResetModal';
 import ProviderRegistrationForm from './ProviderRegistrationForm'
+import providerUrl from './Splash';
 
-
-const ProviderLoginModal = ({ onClose, url, setShowRegistrationModal }) => {
+const ProviderLoginModal = ({ onClose, url }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [showProviderRegistration, setShowProviderRegistration] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -52,14 +53,21 @@ const ProviderLoginModal = ({ onClose, url, setShowRegistrationModal }) => {
             required
           />
           <div style={styles.links}>
-            <a href="#" onClick={() => setShowPasswordReset(true)}>Forgot your password?</a>
-            <a href="/provider-registration" onClick={() => setShowRegistrationModal(true)}>Don't have an account? Register here</a>
+            {/* <a href="#" onClick={() => setShowPasswordReset(true)}>Forgot your password?</a> */}
+        <a onClick={() => setShowProviderRegistration(true)}>  Don't have an account? Register here </a>
           </div>
           <button type="submit" style={styles.button}>Login</button>
         </form>
         <button onClick={onClose} style={styles.closeButton}>Close</button>
       </div>
     </div>
+
+    {showProviderRegistration && (
+        <ProviderRegistrationForm
+            url={providerUrl}
+            onClose={() => setShowProviderRegistration(false)}
+          />
+        )}
     {showPasswordReset && (
         <PasswordResetModal 
           url={url}

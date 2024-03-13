@@ -32,7 +32,7 @@ function ProviderRegistrationForm({ url, onClose }) {
         },
       });
       // After successful registration, you might want to redirect or close modal
-      navigate('/provider-profile', { state: { token: response.data.access_token }});
+      navigate('/provider-login', { state: { token: response.data.access_token }});
       onClose();
     } catch (error) {
       console.error('Registration error:', error.response || error.message);
@@ -107,49 +107,52 @@ function ProviderRegistrationForm({ url, onClose }) {
 export default ProviderRegistrationForm;
 
 const styles = {
-    modalBackground: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 1000,
-    },
-    modal: {
-        background: '#fff',
-        padding: 20,
-        borderRadius: 5,
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    input: {
-        margin: '10px 0',
-        padding: '10px',
-        width: '100%',
-        borderRadius: '5px',
-        border: '1px solid #ddd',
-    },
-    button: {
-        backgroundColor: '#007bff',
-        color: '#fff',
-        padding: '10px 20px',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-    },
-    closeButton: {
-        marginTop: '20px',
-    },
-    error: {
-        color: 'red',
-    }
-    }
+  modalBackground: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+},
+modal: {
+    background: '#fff',
+    padding: 20,
+    borderRadius: 5,
+    display: 'flex',
+    flexDirection: 'column',
+},
+form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+},
+input: {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+},
+button: {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    fontSize: '16px',
+    cursor: 'pointer',
+},
+closeButton: {
+    width: '100%',
+    padding: '10px',
+    margin: '10px 0',
+    fontSize: '16px',
+    cursor: 'pointer',
+},
+error: {
+    color: 'red',
+}
+}

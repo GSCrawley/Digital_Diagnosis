@@ -37,6 +37,7 @@ function PatientRegistrationForm({ url, onClose }) {
       });
       // After successful registration, you might want to redirect or close modal
       navigate('/login', { state: { token: response.data.access_token }});
+      
       onClose();
     } catch (error) {
       console.error('Registration error:', error.response || error.message);
@@ -48,9 +49,9 @@ function PatientRegistrationForm({ url, onClose }) {
   };
 
   return (
+    
     <div style={styles.modalBackground}>
       <div style={styles.modal}>
-      <button onClick={onClose} style={styles.closeButton}>×</button>
         <h1 style={styles.title}>Patient Registration</h1>
 
         <form onSubmit={handleRegistration} style={styles.form}>
@@ -116,14 +117,14 @@ function PatientRegistrationForm({ url, onClose }) {
                 type="file"
                 onChange={handleImageChange}
                 style={styles.input}
-                required
             />
         <button onClick={handleRegistration} style={styles.button}>
           Register
         </button>
         </form>
-        {/* <button onClick={onClose} style={styles.closeButton}>Close</button> */}
-      </div>
+
+        <button onClick={onClose} style={styles.closeButton}>Close</button>
+        </div>
     </div>
   );
 }

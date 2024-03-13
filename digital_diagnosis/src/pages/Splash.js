@@ -4,8 +4,8 @@ import { ReactComponent as Lotus } from '../assets/Lotus.svg'; // Ensure this SV
 import logo from '../assets/logo_adobe_express.svg'; // Ensure this logo is in your src/assets directory
 import LoginModal from './LoginModal';
 import ProviderLoginModal from './ProviderLoginModal';
-import PatientRegistrationForm from './PatientRegistrationForm';
 import ProviderRegistrationForm from './ProviderRegistrationForm';
+import PatientRegistrationForm from './PatientRegistrationForm';
 
 
 const Splash = () => {
@@ -13,8 +13,8 @@ const Splash = () => {
   const [providerUrl, setProviderUrl] = useState('');
   const [showPatientLogin, setShowPatientLogin] = useState(false);
   const [showProviderLogin, setShowProviderLogin] = useState(false);
-  const [showRegistrationModal, setShowRegistrationModal] = useState(false);
-
+  const [showPatientRegistration, setShowPatientRegistration] = useState(false);
+  const [showProviderRegistration, setShowProviderRegistration] = useState(false);
   useEffect(() => {
     const fetchUrls = async () => {
       try {
@@ -58,19 +58,9 @@ const Splash = () => {
         />
       )}
 
-      {showRegistrationModal && (
-        <PatientRegistrationForm
-          url={patientUrl}
-          onClose={() => setShowRegistrationModal(false)}
-        />
-        )}
-
-      {showRegistrationModal && (
-        <ProviderRegistrationForm
-            url={providerUrl}
-            onClose={() => setShowRegistrationModal(false)}
-          />
-        )}
+     
+        
+     
   
     </div>
     </div>
