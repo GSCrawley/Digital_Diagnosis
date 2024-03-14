@@ -5,10 +5,10 @@ import { useLocation } from 'react-router-dom';
 
 function PatientProfile() {
     const [userData, setUserData] = useState({
-        firstName: '',
-        lastName: '',
-        DOB: '',
-        profilePicUrl: '',
+        firstName: 'Gideon',
+        lastName: 'Crawley',
+        DOB: 'August 15th, 1973',
+        profilePicUrl: {defaultProfilePic},
         email: '',
         location: ''
       });
@@ -23,8 +23,8 @@ function PatientProfile() {
             const response = await axios.get(`${url}/profile`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const { first_name, last_name, DOB, profilePicUrl, email, location } = response.data;
-            setUserData({ firstName: first_name, lastName: last_name, DOB, profilePicUrl, email, location });
+            const { first_name, last_name, DOB, user_image, email, location } = response.data;
+            setUserData({ firstName: first_name, lastName: last_name, DOB, profilePicUrl: user_image, email, location });
             } catch (error) {
             console.error('Error fetching profile:', error);
             }

@@ -3,8 +3,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import patientUrl from './Splash';
 
-function PatientRegistrationForm({ url, onClose }) {
+function PatientRegistrationForm({ onClose }) {
   const [firstNameInput, setFirstNameInput] = useState('');
   const [lastNameInput, setLastNameInput] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
@@ -13,6 +14,7 @@ function PatientRegistrationForm({ url, onClose }) {
   const [DOBInput, setDOBInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
   const [image, setImage] = useState(null);
+  let url = patientUrl;
   const navigate = useNavigate();
 
   const handleRegistration = async (event) => {
@@ -30,13 +32,14 @@ function PatientRegistrationForm({ url, onClose }) {
     }
 
     try {
-      const response = await axios.post(`${url}/register`, formData, {
+      const response = await axios.post(`${url}/registration`,  formData , {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       // After successful registration, you might want to redirect or close modal
-      navigate('/login', { state: { token: response.data.access_token }});
+      navigate('/login') 
+      // { state: { token: response.data.access_token }});
       
       onClose();
     } catch (error) {
@@ -49,7 +52,6 @@ function PatientRegistrationForm({ url, onClose }) {
   };
 
   return (
-    
     <div style={styles.modalBackground}>
       <div style={styles.modal}>
         <h1 style={styles.title}>Patient Registration</h1>

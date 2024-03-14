@@ -29,7 +29,7 @@ function App() {
         <Route path="/provider-registration" element={<ProviderRegistrationForm/>} />
         <Route path="/profile" element={<PatientProfile/>} />
         <Route path="/provider-profile" element={<ProviderProfile/>} />
-        {/* <Route path="/patient-profile" element={<ProviderViewPatientProfile/>} /> */} */}
+        {/* <Route path="/patient-profile" element={<ProviderViewPatientProfile/>} /> */} 
         {/* <Route path="/symptom" element={<SymptomFormScreen/>} />
         <Route path="/care-provider-symptoms" element={<CareProviderSymptomFormScreen/>} />
         <Route path="/diagnosis" element={<DiagnosisScreen/>} />
@@ -43,5 +43,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

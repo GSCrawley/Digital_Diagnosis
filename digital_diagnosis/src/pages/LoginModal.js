@@ -21,8 +21,8 @@ const LoginModal = ({ url, onClose }) => {
         email: email,
         password: password,
       });
-      const token = response.data.access_token;      
-      navigate('/profile', { state: {token: token}});
+      const { access_token, user_data } = response.data;      
+      navigate('/profile', { state: {token: access_token, user: user_data}});
       onClose();
     } catch (error) {
       setError('Failed to login. Please try again.');
