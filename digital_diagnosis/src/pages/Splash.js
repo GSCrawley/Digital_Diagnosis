@@ -5,7 +5,7 @@ import logo from '../assets/logo_adobe_express.svg'; // Ensure this logo is in y
 import LoginModal from './LoginModal';
 import ProviderLoginModal from './ProviderLoginModal';
 
-export default function Splash()  {
+function Splash()  {
   const [patientUrl, setPatientUrl] = useState('');
   const [providerUrl, setProviderUrl] = useState('');
   const [showPatientLogin, setShowPatientLogin] = useState(false);
@@ -15,13 +15,15 @@ export default function Splash()  {
     const fetchUrls = async () => {
       try {
         const patientResult = await axios.get('https://cognitive-network-manager-rdwl5upzra-uw.a.run.app/patient_server');
-        setPatientUrl(patientResult.data.url);
+        setPatientUrl(patientResult.data.url) 
+        console.log(patientResult.data.url, "hello")
       } catch (error) {
         console.error('Error fetching data from patient server:', error);
       }
       try {
         const providerResult = await axios.get('https://cognitive-network-manager-rdwl5upzra-uw.a.run.app/care_provider_server');
         setProviderUrl(providerResult.data.url);
+        console.log((providerResult.data.url, "hello"))
       } catch (error) {
         console.error('Error fetching data from care provider server:', error);
       }
@@ -49,7 +51,7 @@ export default function Splash()  {
 
       {showProviderLogin && (
         <ProviderLoginModal 
-          url={providerUrl}
+  url= {providerUrl}
           onClose={() => setShowProviderLogin(false)}
         />
       )}
@@ -63,6 +65,7 @@ export default function Splash()  {
   );
 };
 
+export default Splash;
 
 const styles = {
   mainContainer: {
@@ -72,7 +75,7 @@ const styles = {
     top: '10vh',
     boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', // Creates the shadow effect for 3-D raised look
     transform: 'translateY(-50px)', // Raises the platform up slightly
-    backgroundColor: 'white', // Background color for the container (change as needed)
+    backgroundColor: 'lightyellow', // Background color for the container (change as needed)
     borderRadius: '10px', // Optional: rounds the corners for a polished look
     border: '1px solid #ddd', // Optional: creates a border around the container
     overflow: 'hidden', // Ensures the content doesn't spill out of the container's rounded corners
@@ -119,7 +122,7 @@ const styles = {
     margin: '10px 10px',
     border: '2px solid #4CAF50',
     borderRadius: '10px',
-    backgroundColor: 'white', // Green shade for Patient button
+    backgroundColor: 'lightyellow', // Green shade for Patient button
     color: '#4CAF50',
     fontSize: '16px',
     cursor: 'pointer',

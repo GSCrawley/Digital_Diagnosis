@@ -4,44 +4,37 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function ProviderRegistrationForm({ url, onClose }) {
+function ProviderRegistrationForm({ onClose, url }) {
   const [nameInput, setNameInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
   const [emailInput, setEmailInput] = useState('');
   const [specialtyInput, setSpecialtyInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
-  const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
   const handleRegistration = async (event) => {
-    event.preventDefault();
     const formData = new FormData();
+    event.preventDefault();
     formData.append('name', nameInput);
     formData.append('password', passwordInput);
     formData.append('email', emailInput);
     formData.append('specialty', specialtyInput);
-    formData.append('location', locationInput);
-    if (image) {
-      formData.append('user_image', image);
-    }
-
+    // formData.append('location', locationInput);
     try {
-      const response = await axios.post(`${url}/register`, formData, {
+      const response = await axios.post(`${url}/provider-registration`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
       });
+      console.log(response);
       // After successful registration, you might want to redirect or close modal
-      navigate('/provider-login', { state: { token: response.data.access_token }});
+      navigate('/provider-login', { state: { url: url }});
       onClose();
     } catch (error) {
       console.error('Registration error:', error.response || error.message);
     }
   };
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
-  };
 
   return (
     <div style={styles.modalBackground}>
@@ -59,7 +52,7 @@ function ProviderRegistrationForm({ url, onClose }) {
                 placeholder="Email"
                 value={emailInput}
                 onChange={(e) => setEmailInput(e.target.value)}
-                securetextentry="true"
+                // securetextentry="true"
                 autoCapitalize="none"
                 autoCorrect="false"
             />
@@ -68,7 +61,7 @@ function ProviderRegistrationForm({ url, onClose }) {
                 placeholder="Password"
                 value={passwordInput}
                 onChange={(e) => setPasswordInput(e.target.value)}
-                securetextentry="true"
+                // securetextentry="true"
                 autoCapitalize="none"
                 autoCorrect="false"
             />
@@ -77,7 +70,7 @@ function ProviderRegistrationForm({ url, onClose }) {
                 placeholder="Specialty"
                 value={specialtyInput}
                 onChange={(e) => setSpecialtyInput(e.target.value)}
-                securetextentry="true"
+                // securetextentry="true"
                 autoCapitalize="none"
                 autoCorrect="false"
             />
@@ -90,12 +83,7 @@ function ProviderRegistrationForm({ url, onClose }) {
                 autoCapitalize="none"
                 autoCorrect="false"
             />
-            <input
-                type="file"
-                onChange={handleImageChange}
-                style={styles.input}
-                required
-            />
+           
           <button type="submit" style={styles.button}>Register</button>
         </form>
         <button onClick={onClose} style={styles.closeButton}>Close</button>

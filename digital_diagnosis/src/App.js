@@ -17,7 +17,6 @@ import ProviderProfile from './pages/ProviderProfile';
 // import DiseaseStatsScreen from './pages/DiseaseStats';
 // import RiskFactorInputScreen from './pages/RiskFactorsInput';
 // import RiskFactorsScreen from './pages/RiskFactors';
-
 function App() {
   return (
     <Router>

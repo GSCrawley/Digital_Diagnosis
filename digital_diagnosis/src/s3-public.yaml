@@ -1,0 +1,92 @@
+# AWSTemplateFormatVersion: "2010-09-09"
+# Description: "AWS Resources for Hosting images in a public S3 bucket"
+# Parameters: # params passed to "--parameter-overrides" in CLI
+#   Stage:
+#     Description: Deployment Environment.
+#     Type: String
+#   BucketName:
+#     Description: Bucket Name
+#     Type: String
+
+# Resources:
+#   PublicS3Bucket:
+#     Type: 'AWS::S3::Bucket'
+#     Properties:
+#       BucketName: !Join ['-', [!Ref BucketName, !Ref Stage]]
+#       AccessControl: PublicRead
+
+#   PublicS3BucketPolicy:
+#     Type: AWS::S3::BucketPolicy
+#     Properties:
+#       Bucket: !Ref PublicS3Bucket # attach to bucket being created
+#       PolicyDocument:
+#         Id: !Join ['', ['PublicS3BucketPolicy', !Ref PublicS3Bucket]]
+#         Version: 2012-10-17
+#         Statement: # lets the public access/view the contents of your Bucket, i.e. web app
+#           - Sid: PublicReadForGetBucketObjects
+#             Effect: Allow
+#             Principal: '*' # wildcard, allow all requests
+#             Action: 's3:GetObject'
+#             Resource: !Join ['', ['arn:aws:s3:::', !Ref PublicS3Bucket, /*]]
+
+#   PublicS3BucketUser:
+#     Type: AWS::IAM::User
+#     Properties:
+#       UserName: !Join ['-', [!Ref BucketName, !Ref Stage, 'FullAccessUser']]
+
+#   PublicS3BucketFullAccessPolicy:
+#     Type: AWS::IAM::Policy
+#     Properties:
+#         PolicyName: !Join ['-', [!Ref BucketName, !Ref Stage, 'FullAccessPolicy']]
+#         PolicyDocument:
+#           Version: "2012-10-17"
+#           Statement: 
+#             - Effect: Allow
+#               Action: 
+#                 - "s3:*"
+#               Resource: 
+#                 - !GetAtt PublicS3Bucket.Arn
+#                 - !Join ['', [!GetAtt PublicS3Bucket.Arn, "/*"]]
+#         Users:
+#           - !Ref PublicS3BucketUser
+#     DependsOn: 
+#       - PublicS3Bucket
+#       - PublicS3BucketUser
+
+    
+#   PublicS3BucketUserAccessKey:
+#     Type: AWS::IAM::AccessKey
+#     Properties:
+#       UserName: !Join ['-', [!Ref BucketName, !Ref Stage, 'FullAccessUser']]
+#     DependsOn: PublicS3BucketUser
+
+
+#   PublicS3BucketCDN:
+#     Type: 'AWS::CloudFront::Distribution'
+#     Properties:
+#       DistributionConfig:
+#         Origins:
+#           - DomainName: !GetAtt 
+#               - PublicS3Bucket
+#               - DomainName
+#             Id: !Join ['', ['PublicS3BucketCDNOrigin', !Ref PublicS3Bucket]]
+#             S3OriginConfig: {}
+#         Enabled: 'true'
+#         DefaultCacheBehavior:
+#           TargetOriginId: !Join ['', ['PublicS3BucketCDNOrigin', !Ref PublicS3Bucket]]
+#           ForwardedValues:
+#             QueryString: 'false'
+#           ViewerProtocolPolicy: allow-all
+               
+# Outputs:
+#   PublicS3BucketUserAccessKey:
+#     Description: Access Key for PublicS3BucketUser
+#     Value: !Ref PublicS3BucketUserAccessKey
+#   PublicS3BucketUserSecretKey:
+#     Description: Secret Key for PublicS3BucketUser
+#     Value: !GetAtt PublicS3BucketUserAccessKey.SecretAccessKey
+#   PublicS3BucketURL:
+#     Description: CDN URL
+#     Value: !GetAtt [PublicS3BucketCDN, DomainName]
+     
+           

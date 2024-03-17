@@ -3,16 +3,16 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PasswordResetModal from './PasswordResetModal';
 import PatientRegistrationForm from './PatientRegistrationForm';
-import patientUrl from './Splash';
 
 const LoginModal = ({ url, onClose }) => {
+  console.log("url=",{url})
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const [showPatientRegistration, setShowPatientRegistration] = useState(false);
   const navigate = useNavigate();
-  
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setError('');
@@ -21,8 +21,8 @@ const LoginModal = ({ url, onClose }) => {
         email: email,
         password: password,
       });
-      const { access_token, user_data } = response.data;      
-      navigate('/profile', { state: {token: access_token, user: user_data}});
+      const access_token = response.data.access_token      
+  navigate('/profile', { state: {token: access_token, url: url}});
       onClose();
     } catch (error) {
       setError('Failed to login. Please try again.');
@@ -65,7 +65,7 @@ const LoginModal = ({ url, onClose }) => {
 
     {showPatientRegistration && (
     <PatientRegistrationForm
-      url={patientUrl}
+      url={url}
       onClose={() => setShowPatientRegistration(false)}
     />
     

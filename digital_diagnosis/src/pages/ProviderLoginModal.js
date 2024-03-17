@@ -3,9 +3,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PasswordResetModal from './PasswordResetModal';
 import ProviderRegistrationForm from './ProviderRegistrationForm'
-import providerUrl from './Splash';
+// import providerUrl from './Splash';
 
-const ProviderLoginModal = ({ onClose, url }) => {
+const ProviderLoginModal = ({ url, onClose }) => {
+  console.log("url=",{url})
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPasswordReset, setShowPasswordReset] = useState(false);
@@ -21,8 +22,8 @@ const ProviderLoginModal = ({ onClose, url }) => {
         email: email,
         password: password,
       });
-      const token = response.data.access_token;      
-      navigate('/provider-profile', { state: { token : token}});
+      const access_token = response.data.access_token      
+      navigate('/provider-profile', { state: {token: access_token, url: url}});
       onClose();
     } catch (error) {
       setError('Failed to login. Please try again.');
@@ -64,7 +65,7 @@ const ProviderLoginModal = ({ onClose, url }) => {
 
     {showProviderRegistration && (
         <ProviderRegistrationForm
-            url={providerUrl}
+            url={url}
             onClose={() => setShowProviderRegistration(false)}
           />
         )}

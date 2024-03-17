@@ -3,9 +3,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import patientUrl from './Splash';
 
-function PatientRegistrationForm({ onClose }) {
+function PatientRegistrationForm({ onClose, url }) {
   const [firstNameInput, setFirstNameInput] = useState('');
   const [lastNameInput, setLastNameInput] = useState('');
   const [usernameInput, setUsernameInput] = useState('');
@@ -13,32 +12,31 @@ function PatientRegistrationForm({ onClose }) {
   const [emailInput, setEmailInput] = useState('');
   const [DOBInput, setDOBInput] = useState('');
   const [locationInput, setLocationInput] = useState('');
-  const [image, setImage] = useState(null);
-  let url = patientUrl;
   const navigate = useNavigate();
+  console.log(url)
 
   const handleRegistration = async (event) => {
-    event.preventDefault();
     const formData = new FormData();
+    event.preventDefault();
     formData.append('first_name', firstNameInput);
     formData.append('last_name', lastNameInput);
     formData.append('username', usernameInput);
     formData.append('password', passwordInput);
     formData.append('email', emailInput);
     formData.append('DOB', DOBInput);
-    formData.append('location', locationInput);
-    if (image) {
-      formData.append('user_image', image);
-    }
+    formData.append('location', locationInput)
+    console.log(formData)
 
     try {
-      const response = await axios.post(`${url}/registration`,  formData , {
+      const response = await axios.post(`${url}/register`,  formData , {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'application/json',
         },
+       
       });
+      console.log(response);
       // After successful registration, you might want to redirect or close modal
-      navigate('/login') 
+      navigate('/login', {state: { url: url }}); 
       // { state: { token: response.data.access_token }});
       
       onClose();
@@ -47,9 +45,9 @@ function PatientRegistrationForm({ onClose }) {
     }
   };
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
-  };
+  // const handleImageChange = (event) => {
+  //   setImage(event.target.files[0]);
+  // };
 
   return (
     <div style={styles.modalBackground}>
@@ -115,16 +113,15 @@ function PatientRegistrationForm({ onClose }) {
                 autoCapitalize="none"
                 autoCorrect="false"
             />
-            <input
+            {/* <input
                 type="file"
                 onChange={handleImageChange}
                 style={styles.input}
-            />
+            /> */}
         <button onClick={handleRegistration} style={styles.button}>
           Register
         </button>
         </form>
-
         <button onClick={onClose} style={styles.closeButton}>Close</button>
         </div>
     </div>

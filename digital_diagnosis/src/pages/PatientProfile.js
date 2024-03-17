@@ -5,12 +5,6 @@ import { useLocation } from 'react-router-dom';
 
 function PatientProfile() {
     const [userData, setUserData] = useState({
-        firstName: 'Gideon',
-        lastName: 'Crawley',
-        DOB: 'August 15th, 1973',
-        profilePicUrl: {defaultProfilePic},
-        email: '',
-        location: ''
       });
     const locationState = useLocation().state;
     const token = locationState?.token;
@@ -23,8 +17,8 @@ function PatientProfile() {
             const response = await axios.get(`${url}/profile`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
-            const { first_name, last_name, DOB, user_image, email, location } = response.data;
-            setUserData({ firstName: first_name, lastName: last_name, DOB, profilePicUrl: user_image, email, location });
+            const {  user_image, first_name, last_name, DOB ,email, location } = response.data;
+            setUserData({ profilePicUrl: user_image, firstName: first_name, lastName: last_name, DOB: DOB, email: email, location: location });
             } catch (error) {
             console.error('Error fetching profile:', error);
             }
@@ -45,10 +39,9 @@ function PatientProfile() {
     }
   };
 
-  const defaultProfilePic = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
-
+  const defaultProfilePic = 'St_Psychonaut.jpg';
   return (
-    <div style={styles.container}>
+    <div style={styles.mainContainer}>
       <div style={styles.profileContainer}>
         <img
           src={userData.profilePicUrl || defaultProfilePic}
@@ -73,48 +66,67 @@ function PatientProfile() {
 export default PatientProfile;
 
 const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f5f5f5',
-    padding: '20px',
-    minHeight: '100vh',
-  },
-  profileContainer: {
-    display: 'flex',
+  mainContainer: {
+    width: '80%',
+    height: '90vh',
+    margin: '0 auto', // Centers the container
+    top: '10vh',
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', // Creates the shadow effect for 3-D raised look
+    transform: 'translateY(-50px)', // Raises the platform up slightly
+    backgroundColor: 'offwhite', // Background color for the container (change as needed)
+    borderRadius: '10px', // Optional: rounds the corners for a polished look
+    border: '1px solid #ddd', // Optional: creates a border around the container
+    overflow: 'hidden', // Ensures the content doesn't spill out of the container's rounded corners
+    // display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: '20px',
+    
+    padding: '1rem', // Adjust padding as needed
+    position: 'relative', // Needed for absolute positioning of children if required
+    zIndex: 10, // Ensures the container is above any background elements
+  },
+  profileContainer: {
+    boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+    border: '1px solid #ddd',
+    borderRadius: '10px',
+    display: 'flex',
+    flexDirection: 'row',
+    // alignItems: 'center',
+    justifyContent: 'left',
+    backgroundColor: 'lightyellow',
+    height: '30vh',
+    // textAlign: 'center',
   },
   profilePic: {
-    width: '150px',
-    height: '150px',
+    width: '80px',
+    height: '80px',
     borderRadius: '75px',
     objectFit: 'cover',
+    padding: '20px'
   },
   profileInfo: {
-    marginLeft: '20px',
+    color: '#555'
+    // marginLeft: '20px',
   },
   name: {
+    // margin: '20px',
     fontSize: '32px',
     fontWeight: 'bold',
-    color: '#333',
+    color: '#555',
   },
   info: {
     fontSize: '18px',
-    margin: '5px 0',
+    // margin: '5px 0',
     color: '#555',
   },
   button: {
     backgroundColor: '#4d87bf',
-    padding: '10px 20px',
-    margin: '10px 0',
+    padding: '10px',
+    margin: '10px ',
     borderRadius: '5px',
     border: 'none',
     color: 'white',
-    fontSize: '18px',
+    fontSize: '12px',
     fontWeight: 'bold',
     cursor: 'pointer',
   },
